@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Admin;
+use App\Expense;
+use App\Income;
+
+class FinancialReportController extends Controller {
+	/* Create a new controller instance.
+	 *
+	 * @return void
+	 */
+
+	public function __construct() {
+		$this->middleware('auth:admin');
+	}
+	/**
+	 * Show the application dashboard.
+	 *
+	 * @return \Illuminate\Contracts\Support\Renderable
+	 */
+	public function index() {
+		$expenses = Expense::all();
+		$incomes  = Income::all();
+		$admins   = Admin::all();
+		return view('members-groups.view_financial_report')->with('expenses', $expenses)->with('incomes', $incomes)->with('admins', $admins);
+	}
+}

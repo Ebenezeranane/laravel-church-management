@@ -1,0 +1,54 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+
+Route::get('/', 'AdminController@index')->name('admin');
+
+Auth::routes();
+
+
+Route::get('/admin/church/about-us', 'ChurchDetailsController@index')->name('church_details');
+
+Route::get('admin/member/view', 'ViewMembersController@index')->name('viewMember');
+
+Route::get('admin/finance/income-expenses/view', 'ViewIncomeExpensesController@index')->name('income_expense');
+
+
+
+Route::get('admin/finance/financial-report', 'FinancialReportController@index')->name('financialReport');
+
+Route::get('admin/group-units/view', 'ViewGroupUnitsController@index');
+
+Route::get('admin/services/view', 'ViewServicesController@index')->name('view_services');
+
+Route::prefix('admin')->group(function()
+{
+	Route::get('/login','Auth\AdminLoginController@ShowLoginForm')->name('admin.login');
+	Route::post('/login','Auth\AdminLoginController@login')->name('admin.login.submit');
+	Route::get('logout/','Auth\AdminLoginController@logout')->name('admin.logout');
+	Route::get('/' ,'AdminController@index')->name('admin.dashboard');
+	
+});
+Auth::routes();
+
+
+Route::resource('/admin/member','MembershipController');
+Route::resource('admin/service','ServiceController');
+Route::resource('/admin/group-units','GroupUnitsController');
+
+Route::resource('/admin/finance/expense','ExpenseController');
+
+Route::resource('/admin/finance/income','IncomeController');
+

@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Admin;
+use App\Expense;
+use App\Income;
+
+class ViewIncomeExpensesController extends Controller {
+	/* Create a new controller instance.
+	 *
+	 * @return void
+	 */
+
+	public function __construct() {
+		$this->middleware('auth:admin');
+	}
+	/**
+	 * Show the application dashboard.
+	 *
+	// * @return \Illuminate\Contracts\Support\Renderable
+	 */
+	public function index() {
+		$admins   = Admin::all();
+		$incomes  = Income::all();
+		$expenses = Expense::all();
+
+		return view('members-groups.view_income_expenses')->with('incomes', $incomes)->with('admins', $admins)->with('expenses', $expenses);
+	}
+}
